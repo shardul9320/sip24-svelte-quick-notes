@@ -26,6 +26,17 @@
     selectPage(pages.length - 1);
   }
 
+  function deletePage(index) {
+    const pageToDelete = pages[index];
+    localStorage.removeItem(pageToDelete);
+    pages.splice(index, 1);
+    localStorage.setItem('pages', JSON.stringify(pages));
+    if (pages.length === 0) {
+      pages.push('New Page');
+    }
+    selectPage(index > 0 ? index - 1 : 0);
+  }
+
   function selectPage(index) {
     currentPageIndex = index;
     title = pages[currentPageIndex];
@@ -37,10 +48,11 @@
   <div class="bg-light-gray overflow-y-auto py-5 px-3 h-full border-r border-gray-200">
     <ul class="space-y-2">
       {#each pages as page, index}
-        <li>
-          <button on:click={() => selectPage(index)} class="{index == currentPageIndex ? 'bg-dark-gray' : ''} py-2 px-3 text-gray-900 rounded-lg">
+        <li class="flex justify-between items-center">
+          <button on:click={() => selectPage(index)} class="{index == currentPageIndex ? 'bg-dark-gray' : ''} py-2 px-3 text-gray-900 rounded-lg flex-grow">
             {page}
           </button>
+          <button on:click={() => deletePage(index)} class="ml-2 text-red-500">Delete</button>
         </li>
       {/each}
       <li class="text-center">
