@@ -21,6 +21,7 @@
     console.log('Note saved:', { title, note });
   }
 
+  
   function addPage() {
     pages.push('New Page');
     selectPage(pages.length - 1);
